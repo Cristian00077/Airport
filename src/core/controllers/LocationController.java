@@ -5,25 +5,13 @@ import core.controllers.utils.Status;
 
 public class LocationController {
 
-    private static boolean isValidAirportId(String id) {
-        if (id.equals("") && id.length() != 3) {
-            return false;
-        }
-        for (int i = 0; i < 3; i++) {
-            if (!Character.isUpperCase(id.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public static Response createLocation(String id, String name, String city, String country, double latitude, double longitude) {
         try {
             String latitudeS = String.valueOf(latitude);
             String longitudeS = String.valueOf(longitude);
 
             try {
-                if (!isValidAirportId(id)) {
+                if (!ValidateId(id)) {
                     return new Response("Id must be 3 capital letters ", Status.BAD_REQUEST);
                 }
             } catch (Exception e) {
@@ -76,5 +64,17 @@ public class LocationController {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
         return null;
+    }
+    
+    private static boolean ValidateId(String id) {
+        if (id.equals("") && id.length() != 3) {
+            return false;
+        }
+        for (int i = 0; i < 3; i++) {
+            if (!Character.isUpperCase(id.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }
