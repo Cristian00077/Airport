@@ -159,7 +159,7 @@ public class AirportFrame extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
-        departureDateTextField = new javax.swing.JTextField();
+        yearDepartureDateTextField = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
         MonthDepartureCombo = new javax.swing.JComboBox<>();
         jLabel31 = new javax.swing.JLabel();
@@ -595,10 +595,10 @@ public class AirportFrame extends javax.swing.JFrame {
         jLabel29.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jLabel29.setText("Departure date:");
 
-        departureDateTextField.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        departureDateTextField.addActionListener(new java.awt.event.ActionListener() {
+        yearDepartureDateTextField.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        yearDepartureDateTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                departureDateTextFieldActionPerformed(evt);
+                yearDepartureDateTextFieldActionPerformed(evt);
             }
         });
 
@@ -687,7 +687,7 @@ public class AirportFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(departureDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(yearDepartureDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -762,7 +762,7 @@ public class AirportFrame extends javax.swing.JFrame {
                                 .addComponent(jLabel24)
                                 .addComponent(departureComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel29))
-                            .addComponent(departureDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(yearDepartureDateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(MonthDepartureCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel30)
                             .addComponent(jLabel31)
@@ -1415,6 +1415,7 @@ public class AirportFrame extends javax.swing.JFrame {
         }
         jTabbedPane1.setEnabledAt(5, false);
         jTabbedPane1.setEnabledAt(6, false);
+        jTabbedPane1.setEnabledAt(7, false);
     }//GEN-LAST:event_administratorActionPerformed
 
     private void userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActionPerformed
@@ -1526,15 +1527,15 @@ public class AirportFrame extends javax.swing.JFrame {
         String departureLocationId = departureComboBox.getItemAt(departureComboBox.getSelectedIndex());
         String arrivalLocationId = ArrivalComboBox.getItemAt(ArrivalComboBox.getSelectedIndex());
         String scaleLocationId = ScaleComboBox.getItemAt(ScaleComboBox.getSelectedIndex());
-        int year = Integer.parseInt(departureDateTextField.getText());
-        int month = Integer.parseInt(MonthDepartureCombo.getItemAt(MonthDepartureCombo.getSelectedIndex()));
-        int day = Integer.parseInt(DayDepartureCombo.getItemAt(DayDepartureCombo.getSelectedIndex()));
-        int hour = Integer.parseInt(HourDepartureCombo.getItemAt(HourDepartureCombo.getSelectedIndex()));
-        int minutes = Integer.parseInt(MinuteDepartureCombo.getItemAt(MinuteDepartureCombo.getSelectedIndex()));
-        int hoursDurationsArrival = Integer.parseInt(ArrivalHourCombo.getItemAt(ArrivalHourCombo.getSelectedIndex()));
-        int minutesDurationsArrival = Integer.parseInt(ArrivalMinuteCombo.getItemAt(ArrivalMinuteCombo.getSelectedIndex()));
-        int hoursDurationsScale = Integer.parseInt(ScaleHourCombo.getItemAt(ScaleHourCombo.getSelectedIndex()));
-        int minutesDurationsScale = Integer.parseInt(ScaleMinuteCombo.getItemAt(ScaleMinuteCombo.getSelectedIndex()));
+        String year = yearDepartureDateTextField.getText();
+        String month = MonthDepartureCombo.getItemAt(MonthDepartureCombo.getSelectedIndex());
+        String day = DayDepartureCombo.getItemAt(DayDepartureCombo.getSelectedIndex());
+        String hour = HourDepartureCombo.getItemAt(HourDepartureCombo.getSelectedIndex());
+        String minutes = MinuteDepartureCombo.getItemAt(MinuteDepartureCombo.getSelectedIndex());
+        String hoursDurationsArrival = ArrivalHourCombo.getItemAt(ArrivalHourCombo.getSelectedIndex());
+        String minutesDurationsArrival = ArrivalMinuteCombo.getItemAt(ArrivalMinuteCombo.getSelectedIndex());
+        String hoursDurationsScale = ScaleHourCombo.getItemAt(ScaleHourCombo.getSelectedIndex());
+        String minutesDurationsScale = ScaleMinuteCombo.getItemAt(ScaleMinuteCombo.getSelectedIndex());
 
         LocalDateTime departureDate = LocalDateTime.of(year, month, day, hour, minutes);
 
@@ -1724,9 +1725,9 @@ public class AirportFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_MonthBirthComboActionPerformed
 
-    private void departureDateTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departureDateTextFieldActionPerformed
+    private void yearDepartureDateTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearDepartureDateTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_departureDateTextFieldActionPerformed
+    }//GEN-LAST:event_yearDepartureDateTextFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1773,7 +1774,6 @@ public class AirportFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> delayIdCombo;
     private javax.swing.JComboBox<String> delayMinuteCombo;
     private javax.swing.JComboBox<String> departureComboBox;
-    private javax.swing.JTextField departureDateTextField;
     private javax.swing.JButton exitButton;
     private javax.swing.JTextField firstnameTextField;
     private javax.swing.JTextField firstnameUpTextField;
@@ -1869,5 +1869,6 @@ public class AirportFrame extends javax.swing.JFrame {
     private javax.swing.JButton showPlanesButton;
     private javax.swing.JRadioButton user;
     private javax.swing.JComboBox<String> userSelectCombo;
+    private javax.swing.JTextField yearDepartureDateTextField;
     // End of variables declaration//GEN-END:variables
 }

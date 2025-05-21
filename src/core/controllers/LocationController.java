@@ -15,9 +15,14 @@ public class LocationController {
             if (id.equals("")) {
                 return new Response("Id must be not empty", Status.BAD_REQUEST);
             }
+            
+            if(id.length() > 3){
+                return new Response("Id must have max 3 letters", Status.BAD_REQUEST);
+            }
             if (!ValidateId(id)) {
                 return new Response("Id must be 3 capital letters ", Status.BAD_REQUEST);
             }
+            
 
             if (name.equals("")) {
                 return new Response("Name must be not empty", Status.BAD_REQUEST);
@@ -34,7 +39,7 @@ public class LocationController {
                 if (!latitude.matches("-?\\d+(\\.\\d{1,4})?")) {
                     return new Response("Latitude must have max 4 decimals", Status.BAD_REQUEST);
                 }
-                if (latitudeD < -90 && latitudeD > 90) {
+                if (latitudeD < -90 || latitudeD > 90) {
                     return new Response("Latitude is in incorrect range", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException e) {
@@ -49,7 +54,7 @@ public class LocationController {
                 if (!longitude.matches("-?\\d+(\\.\\d{1,4})?")) {
                     return new Response("Longitude must have max 4 decimals", Status.BAD_REQUEST);
                 }
-                if (longitudeD < -180 && longitudeD > 180) {
+                if (longitudeD < -180 || longitudeD > 180) {
                     return new Response("Longitude is in incorrect range", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException e) {

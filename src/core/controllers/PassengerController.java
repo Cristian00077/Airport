@@ -43,27 +43,35 @@ public class PassengerController {
             
             try {
                 yearInt = Integer.parseInt(year);
-                monthInt = Integer.parseInt(month);
-                dayInt = Integer.parseInt(day);
-                if (yearInt > 2024) {
-                    return new Response("Year invalid", Status.BAD_REQUEST);
-                }
                 if (year.length() > 4) {
                     return new Response("Date of year invalid", Status.BAD_REQUEST);
                 }
-
-                if (monthInt < 1 & monthInt > 12) {
-                    return new Response("Month invalid", Status.BAD_REQUEST);
+                if (yearInt > 2024) {
+                    return new Response("Year invalid", Status.BAD_REQUEST);
                 }
-                if (dayInt < 1 & dayInt > 31) {
-                    return new Response("Day invalid", Status.BAD_REQUEST);
-                }
+                
             } catch (NumberFormatException e) {
                 if (year.equals("")) {
                     return new Response("Year must be not empty", Status.BAD_REQUEST);
                 }
                 
-                return new Response("Birthdate must be just numeric", Status.BAD_REQUEST);
+                return new Response("Year must be just numeric", Status.BAD_REQUEST);
+            }
+            try {
+                monthInt = Integer.parseInt(month);
+                if (monthInt < 1 || monthInt > 12) {
+                    return new Response("Month invalid", Status.BAD_REQUEST);
+                }
+            } catch (NumberFormatException e) {
+                return new Response("Month must be selected", Status.BAD_REQUEST);
+            }
+            try {
+                dayInt = Integer.parseInt(day);
+                if (dayInt < 1  || dayInt > 12) {
+                    return new Response("Month invalid", Status.BAD_REQUEST);
+                }
+            } catch (NumberFormatException e) {
+                return new Response("Day must be selected", Status.BAD_REQUEST);
             }
 
             try {
