@@ -5,6 +5,7 @@ import core.models.Location;
 import core.models.Passenger;
 import core.models.Plane;
 import com.formdev.flatlaf.FlatDarkLaf;
+import core.controllers.LocationController;
 import core.controllers.PassengerController;
 import core.controllers.PlaneController;
 import core.controllers.utils.Response;
@@ -1491,11 +1492,23 @@ public class AirportFrame extends javax.swing.JFrame {
         String name = airportNameTextField.getText();
         String city = airportCityTextField.getText();
         String country = airportCountryTextField.getText();
-        double latitude = Double.parseDouble(airportLatitudeTextField.getText());
-        double longitude = Double.parseDouble(airportLongitudeTextField.getText());
+        String latitude = airportLatitudeTextField.getText();
+        String longitude = airportLongitudeTextField.getText();
 
-        this.locations.add(new Location(id, name, city, country, latitude, longitude));
-
+        Response response = LocationController.createLocation(id, name, city, country, latitude, longitude);
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            airportIdTextField.setText("");
+            airportNameTextField.setText("");
+            airportCityTextField.setText("");
+            airportCountryTextField.setText("");
+            airportLatitudeTextField.setText("");
+            airportLongitudeTextField.setText("");
+        }
         this.departureComboBox.addItem(id);
         this.ArrivalComboBox.addItem(id);
         this.ScaleComboBox.addItem(id);
@@ -1553,31 +1566,40 @@ public class AirportFrame extends javax.swing.JFrame {
 
     private void UpdateInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateInfoButtonActionPerformed
         // TODO add your handling code here:
-        long id = Long.parseLong(PassIdUpdateTextField.getText());
-        String firstname = firstnameUpTextField.getText();
-        String lastname = lastnameUpTextField.getText();
-        int year = Integer.parseInt(BirthdayUpTextField.getText());
-        int month = Integer.parseInt(MonthBirthCombo.getItemAt(BirthdayMonthUpCombo.getSelectedIndex()));
-        int day = Integer.parseInt(DayBirthCombo.getItemAt(BirthDayUpCombo.getSelectedIndex()));
-        int phoneCode = Integer.parseInt(prefijoUpTextField.getText());
-        long phone = Long.parseLong(phoneUpTextField.getText());
-        String country = countryUpTextField.getText();
+        String id = PassengerIdTextField.getText();
+        String firstname = firstnameTextField.getText();
+        String lastname = lastnameTextField.getText();
+        String year = BirthdayTextField.getText();
+        String month = MonthBirthCombo.getItemAt(MonthBirthCombo.getSelectedIndex());
+        String day = DayBirthCombo.getItemAt(DayBirthCombo.getSelectedIndex());
+        String phoneCode = prefijoTextField.getText();
+        String phone = phoneTextField.getText();
+        String country = countryTextField.getText();
 
-        LocalDate birthDate = LocalDate.of(year, month, day);
+        Response response = PassengerController.updatePassenger(id, firstname, lastname, year, month, day, phoneCode, phone, country);
 
-        Passenger passenger = null;
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            PassengerIdTextField.setText("");
+            firstnameTextField.setText("");
+            lastnameTextField.setText("");
+            BirthdayTextField.setText("");
+            prefijoTextField.setText("");
+            phoneTextField.setText("");
+            countryTextField.setText("");
+        }
+        
+        /*Passenger passenger = null;
         for (Passenger p : this.passengers) {
             if (p.getId() == id) {
                 passenger = p;
             }
-        }
-
-        passenger.setFirstname(firstname);
-        passenger.setLastname(lastname);
-        passenger.setBirthDate(birthDate);
-        passenger.setCountryPhoneCode(phoneCode);
-        passenger.setPhone(phone);
-        passenger.setCountry(country);
+        }*/
+ 
     }//GEN-LAST:event_UpdateInfoButtonActionPerformed
 
     private void addFlightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFlightButtonActionPerformed
