@@ -9,17 +9,14 @@ public class LocationController {
 
     public static Response createLocation(String id, String name, String city, String country, String latitude, String longitude) {
         try {
-            double latitudeD;
-            double longitudeD;
-
-            try {
-                if (!ValidateId(id)) {
-                    return new Response("Id must be 3 capital letters ", Status.BAD_REQUEST);
-                }
-            } catch (Exception e) {
-                if (id.equals("")) {
-                    return new Response("Id must be not empty", Status.BAD_REQUEST);
-                }
+            String latitudeS = String.valueOf(latitude);
+            String longitudeS = String.valueOf(longitude);
+            
+            if (id.equals("")) {
+                return new Response("Id must be not empty", Status.BAD_REQUEST);
+            }
+            if (!isValidAirportId(id)) {
+                return new Response("Id must be 3 capital letters ", Status.BAD_REQUEST);
             }
 
             if (name.equals("")) {
