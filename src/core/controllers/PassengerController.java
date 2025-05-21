@@ -46,8 +46,8 @@ public class PassengerController {
                 if (year.length() > 4) {
                     return new Response("Date of year invalid", Status.BAD_REQUEST);
                 }
-                if (yearInt > 2024) {
-                    return new Response("Year invalid", Status.BAD_REQUEST);
+                if (yearInt > LocalDateTime.now().getYear()) {
+                    return new Response("Invalid year", Status.BAD_REQUEST);
                 }
                 
             } catch (NumberFormatException e) {

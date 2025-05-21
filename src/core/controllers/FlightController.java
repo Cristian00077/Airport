@@ -60,8 +60,9 @@ public class FlightController {
         
         try {
             yearInt = Integer.parseInt(year);
-            if(yearInt < 2024){
-                return new Response("Year must be greater than 2024", Status.BAD_REQUEST);
+            
+            if(yearInt < LocalDateTime.now().getYear() - 1){
+                return new Response("Year must be greater than "+ (LocalDateTime.now().getYear() - 1) , Status.BAD_REQUEST);
             }
         } catch (NumberFormatException e) {
             if (year.equals("")) {
@@ -173,7 +174,7 @@ public class FlightController {
             }
 
         if(!storageFlight.addFlight(new Flight(id, plane, departureLocation, arrivalLocation, departureDate, hourArrival, minuteArrival))){
-            return new Response("These flight already exits", Status.BAD_REQUEST);
+            return new Response("This flight already exits", Status.BAD_REQUEST);
         }
             return new Response("Flight created successfully", Status.CREATED);
         } catch (Exception e) {
@@ -192,6 +193,19 @@ public class FlightController {
             return new Response("Unexpected error", Status.BAD_REQUEST);
         }
         
+    }
+    
+    public static LocalDateTime dateTimeObject(String year, String month, String day, String hour, String minutes){
+        try{
+            
+        }catch(NumberFormatException e){
+            
+        }
+        
+        
+        
+        
+        return null;
     }
 
 }
