@@ -2,13 +2,15 @@ package core.controllers;
 
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
+import core.models.Location;
+import core.models.storage.StorageLocation;
 
 public class LocationController {
 
-    public static Response createLocation(String id, String name, String city, String country, double latitude, double longitude) {
+    public static Response createLocation(String id, String name, String city, String country, String latitude, String longitude) {
         try {
-            String latitudeS = String.valueOf(latitude);
-            String longitudeS = String.valueOf(longitude);
+            double latitudeD;
+            double longitudeD;
 
             try {
                 if (!ValidateId(id)) {
@@ -31,39 +33,45 @@ public class LocationController {
                 return new Response("Country must be not empty", Status.BAD_REQUEST);
             }
             try {
-
-                if (!latitudeS.matches("-?\\d+(\\.\\d{1,4})?")) {
+                latitudeD = Double.parseDouble(latitude);
+                if (!latitude.matches("-?\\d+(\\.\\d{1,4})?")) {
                     return new Response("Latitude must have max 4 decimals", Status.BAD_REQUEST);
                 }
-                if (latitude < -90 && latitude > 90) {
+                if (latitudeD < -90 && latitudeD > 90) {
                     return new Response("Latitude is in incorrect range", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException e) {
-                if (latitudeS.equals("")) {
+                if (latitude.equals("")) {
                     return new Response("Latitude must be not empty", Status.BAD_REQUEST);
                 }
                 return new Response("Latitude must be numeric", Status.BAD_REQUEST);
             }
 
             try {
-
-                if (!longitudeS.matches("-?\\d+(\\.\\d{1,4})?")) {
+                longitudeD = Double.parseDouble(longitude);
+                if (!longitude.matches("-?\\d+(\\.\\d{1,4})?")) {
                     return new Response("Longitude must have max 4 decimals", Status.BAD_REQUEST);
                 }
-                if (longitude < -180 && longitude > 180) {
+                if (longitudeD < -180 && longitudeD > 180) {
                     return new Response("Longitude is in incorrect range", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException e) {
-                if (longitudeS.equals("")) {
+                if (longitude.equals("")) {
                     return new Response("Longitude must be not empty", Status.BAD_REQUEST);
                 }
                 return new Response("Longitude must be numeric", Status.BAD_REQUEST);
             }
 
+            StorageLocation storageLocation = StorageLocation.getInstance();
+            if(!storageLocation.addLocation(new Location(id, name, city, country, latitudeD, longitudeD))){
+                return new Response("Airport with that id already exits", Status.BAD_REQUEST);
+            }
+            return new Response("Airport created successfully", Status.CREATED);
+            
         } catch (Exception ex) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
-        return null;
+     
     }
     
     private static boolean ValidateId(String id) {
