@@ -37,4 +37,9 @@ public class StorageLocation {
         }
         return null;
     }
+
+    public ArrayList<Location> getLocations() {
+        return locations;
+    }
+    
 }

@@ -37,4 +37,9 @@ public class StoragePassenger {
         }
         return null;
     }
+
+    public ArrayList<Passenger> getPassengers() {
+        return passengers;
+    }
+    
 }

@@ -38,4 +38,9 @@ public class StoragePlane {
         }
         return null;
     }
+
+    public ArrayList<Plane> getPlanes() {
+        return planes;
+    }
+    
 }
