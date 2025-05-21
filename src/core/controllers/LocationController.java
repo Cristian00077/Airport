@@ -11,15 +11,12 @@ public class LocationController {
         try {
             double latitudeD;
             double longitudeD;
-
-            try {
-                if (!ValidateId(id)) {
-                    return new Response("Id must be 3 capital letters ", Status.BAD_REQUEST);
-                }
-            } catch (Exception e) {
-                if (id.equals("")) {
-                    return new Response("Id must be not empty", Status.BAD_REQUEST);
-                }
+            
+            if (id.equals("")) {
+                return new Response("Id must be not empty", Status.BAD_REQUEST);
+            }
+            if (!ValidateId(id)) {
+                return new Response("Id must be 3 capital letters ", Status.BAD_REQUEST);
             }
 
             if (name.equals("")) {

@@ -596,6 +596,11 @@ public class AirportFrame extends javax.swing.JFrame {
         jLabel29.setText("Departure date:");
 
         departureDateTextField.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        departureDateTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                departureDateTextFieldActionPerformed(evt);
+            }
+        });
 
         jLabel30.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jLabel30.setText("-");
@@ -1456,7 +1461,7 @@ public class AirportFrame extends javax.swing.JFrame {
             phoneTextField.setText("");
             countryTextField.setText("");
         }
-
+        
         this.userSelectCombo.addItem("" + id);
 
     }//GEN-LAST:event_RegisterButtonActionPerformed
@@ -1718,6 +1723,10 @@ public class AirportFrame extends javax.swing.JFrame {
     private void MonthBirthComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MonthBirthComboActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MonthBirthComboActionPerformed
+
+    private void departureDateTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_departureDateTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_departureDateTextFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
