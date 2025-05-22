@@ -5,6 +5,7 @@ import core.models.Location;
 import core.models.Passenger;
 import core.models.Plane;
 import com.formdev.flatlaf.FlatDarkLaf;
+import core.controllers.FlightController;
 import core.controllers.LocationController;
 import core.controllers.PassengerController;
 import core.controllers.PlaneController;
@@ -1537,35 +1538,7 @@ public class AirportFrame extends javax.swing.JFrame {
         String hoursDurationsScale = ScaleHourCombo.getItemAt(ScaleHourCombo.getSelectedIndex());
         String minutesDurationsScale = ScaleMinuteCombo.getItemAt(ScaleMinuteCombo.getSelectedIndex());
 
-        LocalDateTime departureDate = LocalDateTime.of(year, month, day, hour, minutes);
-
-        Plane plane = null;
-        for (Plane p : this.planes) {
-            if (planeId.equals(p.getId())) {
-                plane = p;
-            }
-        }
-
-        Location departure = null;
-        Location arrival = null;
-        Location scale = null;
-        for (Location location : this.locations) {
-            if (departureLocationId.equals(location.getAirportId())) {
-                departure = location;
-            }
-            if (arrivalLocationId.equals(location.getAirportId())) {
-                arrival = location;
-            }
-            if (scaleLocationId.equals(location.getAirportId())) {
-                scale = location;
-            }
-        }
-
-        if (scale == null) {
-            this.flights.add(new Flight(id, plane, departure, arrival, departureDate, hoursDurationsArrival, minutesDurationsArrival));
-        } else {
-            this.flights.add(new Flight(id, plane, departure, scale, arrival, departureDate, hoursDurationsArrival, minutesDurationsArrival, hoursDurationsScale, minutesDurationsScale));
-        }
+        FlightController.createFlight(id, planeId, departureLocationId, scaleLocationId, arrivalLocationId, year, month, day, hour, minutes, hoursDurationsArrival, minutesDurationsArrival, hoursDurationsScale, minutesDurationsScale);
 
         this.flightCombo.addItem(id);
     }//GEN-LAST:event_createFlightButtonActionPerformed

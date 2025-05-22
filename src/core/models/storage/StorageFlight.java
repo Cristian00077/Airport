@@ -28,7 +28,6 @@ public class StorageFlight {
         this.flights.add(flight);
         return true;
     }
-    
     public Flight getFlight(String id){
         for (Flight flight : this.flights) {
             if(flight.getId().equals(id)){
