@@ -40,6 +40,5 @@ public class StoragePassenger {
 
     public ArrayList<Passenger> getPassengers() {
         return passengers;
-    }
-    
+    }   
 }

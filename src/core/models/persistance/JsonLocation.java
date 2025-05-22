@@ -3,14 +3,12 @@ package core.models.persistance;
 
 import core.models.Location;
 import core.models.storage.StorageLocation;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class JsonLocation {
+public class JsonLocation implements Json<Location>{
     public void readJsonLocations(String path) {
         try {
             String content = new String(Files.readAllBytes(Paths.get(path)));

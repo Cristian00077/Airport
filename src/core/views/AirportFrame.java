@@ -1459,6 +1459,8 @@ public class AirportFrame extends javax.swing.JFrame {
             firstnameTextField.setText("");
             lastnameTextField.setText("");
             BirthdayTextField.setText("");
+            MonthBirthCombo.setSelectedIndex(0);
+            DayBirthCombo.setSelectedIndex(0);
             prefijoTextField.setText("");
             phoneTextField.setText("");
             countryTextField.setText("");
@@ -1538,8 +1540,30 @@ public class AirportFrame extends javax.swing.JFrame {
         String hoursDurationsScale = ScaleHourCombo.getItemAt(ScaleHourCombo.getSelectedIndex());
         String minutesDurationsScale = ScaleMinuteCombo.getItemAt(ScaleMinuteCombo.getSelectedIndex());
 
-        FlightController.createFlight(id, planeId, departureLocationId, scaleLocationId, arrivalLocationId, year, month, day, hour, minutes, hoursDurationsArrival, minutesDurationsArrival, hoursDurationsScale, minutesDurationsScale);
+        Response response = FlightController.createFlight(id, planeId, departureLocationId, scaleLocationId, arrivalLocationId, year, month, day, hour, minutes, hoursDurationsArrival, minutesDurationsArrival, hoursDurationsScale, minutesDurationsScale);
 
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            flightIdTextField.setText("");
+            planeComboBox.setSelectedIndex(0);
+            departureComboBox.setSelectedIndex(0);
+            ArrivalComboBox.setSelectedIndex(0);
+            ScaleComboBox.setSelectedIndex(0);
+            yearDepartureDateTextField.setText("");
+            MonthDepartureCombo.setSelectedIndex(0);
+            DayDepartureCombo.setSelectedIndex(0);
+            HourDepartureCombo.setSelectedIndex(0);
+            MinuteDepartureCombo.setSelectedIndex(0);
+            ArrivalHourCombo.setSelectedIndex(0);
+            ArrivalMinuteCombo.setSelectedIndex(0);
+            ScaleHourCombo.setSelectedIndex(0);
+            ScaleMinuteCombo.setSelectedIndex(0);
+            
+        }
         this.flightCombo.addItem(id);
     }//GEN-LAST:event_createFlightButtonActionPerformed
 
@@ -1567,17 +1591,13 @@ public class AirportFrame extends javax.swing.JFrame {
             firstnameTextField.setText("");
             lastnameTextField.setText("");
             BirthdayTextField.setText("");
+            MonthBirthCombo.setSelectedIndex(0);
+            DayBirthCombo.setSelectedIndex(0);
             prefijoTextField.setText("");
             phoneTextField.setText("");
             countryTextField.setText("");
         }
-        
-        /*Passenger passenger = null;
-        for (Passenger p : this.passengers) {
-            if (p.getId() == id) {
-                passenger = p;
-            }
-        }*/
+       
  
     }//GEN-LAST:event_UpdateInfoButtonActionPerformed
 

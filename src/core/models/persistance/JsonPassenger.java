@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class JsonPassenger {
+public class JsonPassenger implements Json<Passenger>{
     public void readJsonPassengers(String path){
         try {
             String content = new String(Files.readAllBytes(Paths.get(path)));

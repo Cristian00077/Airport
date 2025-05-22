@@ -3,14 +3,12 @@ package core.models.persistance;
 
 import core.models.Plane;
 import core.models.storage.StoragePlane;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class JsonPlane {
+public class JsonPlane implements Json<Plane>{
     public void readJsonPlanes(String path){
         try {
             String content = new String(Files.readAllBytes(Paths.get(path)));
