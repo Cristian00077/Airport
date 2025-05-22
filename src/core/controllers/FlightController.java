@@ -35,18 +35,26 @@ public class FlightController {
                 return new Response("Id format invalid, must be 3 Upercase letters and 3 numbers", Status.BAD_REQUEST);
             }
 
-            if (planeID == null || planeID.isEmpty()) {
-                return new Response("Plane must be not empty", Status.BAD_REQUEST);
+            try {
+                
+            } catch (Exception e) {
+                if (planeID == null || planeID.isEmpty()) {
+                return new Response("Plane must be selected", Status.BAD_REQUEST);
+            }
             }
 
             if (departureLocationID == null || departureLocationID.isEmpty()) {
-                return new Response("Departure location must be not empty", Status.BAD_REQUEST);
+                return new Response("Departure location must be selected", Status.BAD_REQUEST);
             }
 
             if (arrivalLocationID == null || arrivalLocationID.isEmpty()) {
-                return new Response("Arrival location must be not empty", Status.BAD_REQUEST);
+                return new Response("Arrival location must be selected", Status.BAD_REQUEST);
             }
 
+            if (scaleLocationID == null || scaleLocationID.isEmpty()) {
+                return new Response("Arrival location must be selected", Status.BAD_REQUEST);
+            }
+            
             int yearInt;
             int monthInt;
             int dayInt;
@@ -61,55 +69,46 @@ public class FlightController {
                 }
             } catch (NumberFormatException e) {
                 if (year.equals("")) {
-                    return new Response("Year must be not empty", Status.BAD_REQUEST);
+                    return new Response("Year departure must be not empty", Status.BAD_REQUEST);
                 }
-                return new Response("Year must be just numeric", Status.BAD_REQUEST);
+                return new Response("Year departure must be just numeric", Status.BAD_REQUEST);
             }
 
             try {
                 monthInt = Integer.parseInt(month);
                 if (monthInt > 12) {
-                    return new Response("Month invalid", Status.BAD_REQUEST);
+                    return new Response("Month departure invalid", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException e) {
-                return new Response("Month must be selected", Status.BAD_REQUEST);
+                return new Response("Month departure must be selected", Status.BAD_REQUEST);
             }
 
             try {
                 dayInt = Integer.parseInt(day);
                 if (dayInt > 31) {
-                    return new Response("Day invalid", Status.BAD_REQUEST);
+                    return new Response("Day departure invalid", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException e) {
-                return new Response("Day must be selected", Status.BAD_REQUEST);
+                return new Response("Day departure must be selected", Status.BAD_REQUEST);
             }
 
             try {
                 hourInt = Integer.parseInt(hour);
                 if (hourInt < 0) {
-                    return new Response("Hour must be greater than 0", Status.BAD_REQUEST);
+                    return new Response("Hour departure must be greater than 0", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException e) {
-                return new Response("Hour must be selected", Status.BAD_REQUEST);
+                return new Response("Hour departure must be selected", Status.BAD_REQUEST);
             }
 
             try {
                 minutesInt = Integer.parseInt(minutes);
                 if (minutesInt < 0 || minutesInt > 59) {
-                    return new Response("Minutes must be greater than 0", Status.BAD_REQUEST);
+                    return new Response("Minutes departure must be greater than 0", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException e) {
-                return new Response("Minutes must be selected", Status.BAD_REQUEST);
+                return new Response("Minutes departure must be selected", Status.BAD_REQUEST);
             }
-            /*if (departureDate == null || departureDate.isEmpty()) {
-               return new Response("Departure date must be not empty", Status.BAD_REQUEST);
-           } else {
-               try {
-                   java.time.LocalDate.parse(departureDate);
-               } catch (java.time.format.DateTimeParseException e) {
-                   return new Response("Departure date must be in format YYYY-MM-DD",Status.BAD_REQUEST);
-               }
-           }*/
 
             int hourArrival;
             try {

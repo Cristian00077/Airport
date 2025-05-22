@@ -3,6 +3,7 @@ package core.controllers;
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
 import core.models.Passenger;
+import core.models.storage.StorageLocation;
 import core.models.storage.StoragePassenger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -59,7 +60,7 @@ public class PassengerController {
             }
             try {
                 monthInt = Integer.parseInt(month);
-                if (monthInt < 1 || monthInt > 12) {
+                if (monthInt > 12) {
                     return new Response("Month invalid", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException e) {
@@ -67,7 +68,7 @@ public class PassengerController {
             }
             try {
                 dayInt = Integer.parseInt(day);
-                if (dayInt < 1  || dayInt > 12) {
+                if (dayInt > 31) {
                     return new Response("Month invalid", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException e) {
@@ -122,6 +123,28 @@ public class PassengerController {
         }
     }
     
+    public static Response getPassenger(String id) {
+    try {
+        long idLong;
+        try {
+            idLong = Long.parseLong(id);
+        } catch (NumberFormatException e) {
+            return new Response("Id must be numeric", Status.BAD_REQUEST);
+        }
+        
+        StoragePassenger storagePass = StoragePassenger.getInstance();
+        Passenger passenger = storagePass.getPassenger(idLong);
+        
+        if(passenger == null) {
+            return new Response("Passenger not found", Status.NOT_FOUND);
+        } else {
+            return new Response("Passenger found", Status.OK, passenger);
+        }
+    } catch (Exception ex) {
+        return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+    }
+}
+    
     public static Response updatePassenger(String id, String firstnameN, String lastnameN,
             String yearN, String monthN, String dayN, String countryPhoneCodeN, String phoneN, String countryN) {
         try {
@@ -160,10 +183,10 @@ public class PassengerController {
                     return new Response("Date of year invalid", Status.BAD_REQUEST);
                 }
 
-                if (monthInt < 1 & monthInt > 12) {
+                if (monthInt > 12) {
                     return new Response("Month invalid", Status.BAD_REQUEST);
                 }
-                if (dayInt < 1 & dayInt > 31) {
+                if (dayInt > 31) {
                     return new Response("Day invalid", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException e) {
@@ -211,12 +234,7 @@ public class PassengerController {
 
             LocalDate birthDate = LocalDate.of(yearInt, monthInt, dayInt);
             StoragePassenger storagePass = StoragePassenger.getInstance();
-            Passenger passenger = null;
-            for (Passenger p : storagePass.getPassengers()) {
-                if (p.getId() == idLong) {
-                    passenger = p;
-                }
-            }
+            Passenger passenger = storagePass.getPassenger(idLong);
             
             if(passenger == null){
                 return new Response("Passenger not found", Status.BAD_REQUEST);

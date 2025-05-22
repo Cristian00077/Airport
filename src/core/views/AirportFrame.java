@@ -1455,6 +1455,7 @@ public class AirportFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            this.userSelectCombo.addItem("" + id);
             PassengerIdTextField.setText("");
             firstnameTextField.setText("");
             lastnameTextField.setText("");
@@ -1465,8 +1466,6 @@ public class AirportFrame extends javax.swing.JFrame {
             phoneTextField.setText("");
             countryTextField.setText("");
         }
-        
-        this.userSelectCombo.addItem("" + id);
 
     }//GEN-LAST:event_RegisterButtonActionPerformed
 
@@ -1569,16 +1568,17 @@ public class AirportFrame extends javax.swing.JFrame {
 
     private void UpdateInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateInfoButtonActionPerformed
         // TODO add your handling code here:
-        String id = PassengerIdTextField.getText();
-        String firstname = firstnameTextField.getText();
-        String lastname = lastnameTextField.getText();
-        String year = BirthdayTextField.getText();
-        String month = MonthBirthCombo.getItemAt(MonthBirthCombo.getSelectedIndex());
-        String day = DayBirthCombo.getItemAt(DayBirthCombo.getSelectedIndex());
-        String phoneCode = prefijoTextField.getText();
-        String phone = phoneTextField.getText();
-        String country = countryTextField.getText();
+        String id = PassIdUpdateTextField.getText();
+        String firstname = firstnameUpTextField.getText();
+        String lastname = lastnameUpTextField.getText();
+        String year = BirthdayUpTextField.getText();
+        String month = BirthdayMonthUpCombo.getItemAt(BirthdayMonthUpCombo.getSelectedIndex());
+        String day = BirthDayUpCombo.getItemAt(BirthDayUpCombo.getSelectedIndex());
+        String phoneCode = prefijoUpTextField.getText();
+        String phone = phoneUpTextField.getText();
+        String country = countryUpTextField.getText();
 
+        
         Response response = PassengerController.updatePassenger(id, firstname, lastname, year, month, day, phoneCode, phone, country);
 
         if (response.getStatus() >= 500) {
@@ -1587,18 +1587,16 @@ public class AirportFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
-            PassengerIdTextField.setText("");
-            firstnameTextField.setText("");
-            lastnameTextField.setText("");
-            BirthdayTextField.setText("");
-            MonthBirthCombo.setSelectedIndex(0);
-            DayBirthCombo.setSelectedIndex(0);
-            prefijoTextField.setText("");
-            phoneTextField.setText("");
-            countryTextField.setText("");
+            firstnameUpTextField.setText("");
+            lastnameUpTextField.setText("");
+            BirthdayUpTextField.setText("");
+            BirthdayMonthUpCombo.setSelectedIndex(0);
+            BirthDayUpCombo.setSelectedIndex(0);
+            prefijoUpTextField.setText("");
+            phoneUpTextField.setText("");
+            countryUpTextField.setText("");
         }
        
- 
     }//GEN-LAST:event_UpdateInfoButtonActionPerformed
 
     private void addFlightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFlightButtonActionPerformed
@@ -1643,6 +1641,16 @@ public class AirportFrame extends javax.swing.JFrame {
 
     private void refreshFlightsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshFlightsButtonActionPerformed
         // TODO add your handling code here:
+        Response response;
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
         long passengerId = Long.parseLong(userSelectCombo.getItemAt(userSelectCombo.getSelectedIndex()));
 
         Passenger passenger = null;
@@ -1662,6 +1670,17 @@ public class AirportFrame extends javax.swing.JFrame {
 
     private void refreshPassengersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshPassengersButtonActionPerformed
         // TODO add your handling code here:
+        Response response;
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
         for (Passenger passenger : this.passengers) {
@@ -1671,11 +1690,22 @@ public class AirportFrame extends javax.swing.JFrame {
 
     private void ShowFlightsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShowFlightsButtonActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        Response response;
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        
+        /*DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
         model.setRowCount(0);
         for (Flight flight : this.flights) {
             model.addRow(new Object[]{flight.getId(), flight.getDepartureLocation().getAirportId(), flight.getArrivalLocation().getAirportId(), (flight.getScaleLocation() == null ? "-" : flight.getScaleLocation().getAirportId()), flight.getDepartureDate(), flight.calculateArrivalDate(), flight.getPlane().getId(), flight.getNumPassengers()});
-        }
+        }*/
     }//GEN-LAST:event_ShowFlightsButtonActionPerformed
 
     private void showPlanesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPlanesButtonActionPerformed
