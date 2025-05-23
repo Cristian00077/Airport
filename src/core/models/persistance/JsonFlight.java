@@ -5,19 +5,14 @@ import core.models.*;
 import core.models.storage.StorageFlight;
 import core.models.storage.StorageLocation;
 import core.models.storage.StoragePlane;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class JsonFlight implements Json<Flight>{
-    public void readJsonFlights(String path){
-        try {
+public class JsonFlight {
+    public static void readJsonFlights(){
             Plane planeAux;
-            String content = new String(Files.readAllBytes(Paths.get(path)));
-            JSONArray arrayJson = new JSONArray(content);
+            JSONArray arrayJson = JsonReader.load("core/json/flights.json");
             
             for (int i = 0; i < arrayJson.length(); i++) {
                 JSONObject object = arrayJson.getJSONObject(i);
@@ -31,6 +26,9 @@ public class JsonFlight implements Json<Flight>{
                 Location departureLocation = StorageLocation.getInstance().getLocation(departureLoc);
                 Location arrivalLocation = StorageLocation.getInstance().getLocation(arriveLoc);
                 Location scaleLocation = StorageLocation.getInstance().getLocation(scaleLoc);
+                /*Location scaleLocation = (scaleLoc == null || scaleLoc.isEmpty()) 
+                ? null 
+                : StorageLocation.getInstance().getLocation(scaleLoc);*/
                 
                 Flight flight;
                 if(scaleLocation == null){
@@ -59,9 +57,5 @@ public class JsonFlight implements Json<Flight>{
                 }
                 StorageFlight.getInstance().addFlight(flight);
             }
-            
-        } catch (Exception ex) {
-            System.out.println("Error reading");
-        }
     }
 }

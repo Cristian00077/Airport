@@ -4,14 +4,17 @@ import core.controllers.utils.Response;
 import core.controllers.utils.Status;
 import core.models.Flight;
 import core.models.Location;
+import core.models.Passenger;
 import core.models.Plane;
+import core.models.persistance.JsonFlight;
+import core.models.single.FlightDelay;
 import core.models.storage.StorageFlight;
 import core.models.storage.StorageLocation;
+import core.models.storage.StoragePassenger;
 import core.models.storage.StoragePlane;
 import java.time.LocalDateTime;
 
 public class FlightController {
-
     public static Response createFlight(
             String id,
             String planeID,
@@ -189,18 +192,83 @@ public class FlightController {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
-
+    
+    public static Response addPassengerToFlight(String PassId, String flightId){
+        try {
+            long passIdLong;
+            try {
+                passIdLong = Long.parseLong(PassId);
+            } catch (NumberFormatException e) {
+                return new Response("Passenger id must be numeric", Status.BAD_REQUEST);
+            }
+            
+            if(flightId.isEmpty()){
+                return new Response("There are not flights to add passengers", Status.BAD_REQUEST);
+            }
+            
+            StorageFlight storageflight = StorageFlight.getInstance();
+            StoragePassenger storagePass = StoragePassenger.getInstance();  
+            
+            Flight flight = storageflight.getFlight(flightId);
+            if(flight == null){
+                return new Response("Flight not found", Status.NOT_FOUND);
+            }
+            Passenger passenger = storagePass.getPassenger(passIdLong);
+            if(passenger == null){
+                return new Response("Passenger not found", Status.NOT_FOUND);
+            }
+            
+            if(flight.getNumPassengers() >= flight.getPlane().getMaxCapacity()){
+                return new Response("Plane already have max capacity", Status.BAD_REQUEST);
+            }
+            if(flight.getPassengers().contains(passenger)){
+                return new Response("Paasenger already exits in these flight", Status.BAD_REQUEST);
+            }
+            flight.addPassenger(passenger);
+            passenger.addFlight(flight);
+            return new Response("Passenger added successfully", Status.OK);
+        } catch (Exception e) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    
     private static boolean isValidFlightIdFormat(String id) {
         return id.matches("^[A-Z]{3}\\d{3}$");
     }
 
-    public static Response delayFlight() {
+    public static Response delayFlight(String flightId, String hours, String minutes) {
         try {
-
+            int hoursInt, minutesInt;
+            if (flightId.isEmpty()) {
+            return new Response("Flight Id is required", Status.BAD_REQUEST);
+            }
+            try {
+                hoursInt = Integer.parseInt(hours);
+                minutesInt = Integer.parseInt(minutes);
+                
+                if (hoursInt < 0 || minutesInt < 0) {
+                    return new Response("Delay time must be positive", Status.BAD_REQUEST);
+                }
+                if (hoursInt == 0 && minutesInt == 0) {
+                    return new Response("Delay time must be greater than 00:00", Status.BAD_REQUEST);
+                }
+            } catch (NumberFormatException e) {
+                return new Response("Hours and minutes must be numeric", Status.BAD_REQUEST);
+            }
+            
+            StorageFlight storageFlight = StorageFlight.getInstance();
+            Flight flight = storageFlight.getFlight(flightId);
+            
+            if (flight == null) {
+            return new Response("Flight not found", Status.NOT_FOUND);
+            }
+            FlightDelay.delay(flight, hoursInt, minutesInt);
+            return new Response("Flight delayed successfully", Status.OK);
         } catch (Exception e) {
             return new Response("Unexpected error", Status.BAD_REQUEST);
         }
-        return null;
+       
     }
 
     public static LocalDateTime dateTimeObject(String year, String month, String day, String hour, String minutes) {

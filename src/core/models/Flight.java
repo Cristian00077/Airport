@@ -99,5 +99,9 @@ public class Flight {
     public int getNumPassengers() {
         return passengers.size();
     }
+
+    public ArrayList<Passenger> getPassengers() {
+        return passengers;
+    }
     
 }

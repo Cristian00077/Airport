@@ -3,6 +3,7 @@ package core.controllers;
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
 import core.models.Location;
+import core.models.persistance.JsonLocation;
 import core.models.storage.StorageLocation;
 
 public class LocationController {
@@ -75,7 +76,7 @@ public class LocationController {
         }
      
     }
-    
+  
     private static boolean ValidateId(String id) {
         if (id.equals("") && id.length() != 3) {
             return false;

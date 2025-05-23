@@ -3,10 +3,14 @@ package core.controllers;
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
 import core.models.Passenger;
+import core.models.persistance.JsonPassenger;
+import core.models.single.PassengerCalAge;
 import core.models.storage.StorageLocation;
 import core.models.storage.StoragePassenger;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import javax.swing.JComboBox;
 
 public class PassengerController {
 
@@ -174,27 +178,35 @@ public class PassengerController {
             
             try {
                 yearInt = Integer.parseInt(yearN);
-                monthInt = Integer.parseInt(monthN);
-                dayInt = Integer.parseInt(dayN);
-                if (yearInt > 2024) {
-                    return new Response("Year invalid", Status.BAD_REQUEST);
-                }
                 if (yearN.length() > 4) {
                     return new Response("Date of year invalid", Status.BAD_REQUEST);
                 }
-
-                if (monthInt > 12) {
-                    return new Response("Month invalid", Status.BAD_REQUEST);
+                if (yearInt > LocalDateTime.now().getYear()) {
+                    return new Response("Invalid year", Status.BAD_REQUEST);
                 }
-                if (dayInt > 31) {
-                    return new Response("Day invalid", Status.BAD_REQUEST);
-                }
+                
             } catch (NumberFormatException e) {
                 if (yearN.equals("")) {
                     return new Response("Year must be not empty", Status.BAD_REQUEST);
                 }
                 
-                return new Response("Birthdate must be just numeric", Status.BAD_REQUEST);
+                return new Response("Year must be just numeric", Status.BAD_REQUEST);
+            }
+            try {
+                monthInt = Integer.parseInt(monthN);
+                if (monthInt > 12) {
+                    return new Response("Month invalid", Status.BAD_REQUEST);
+                }
+            } catch (NumberFormatException e) {
+                return new Response("Month must be selected", Status.BAD_REQUEST);
+            }
+            try {
+                dayInt = Integer.parseInt(dayN);
+                if (dayInt > 31) {
+                    return new Response("Month invalid", Status.BAD_REQUEST);
+                }
+            } catch (NumberFormatException e) {
+                return new Response("Day must be selected", Status.BAD_REQUEST);
             }
 
             try {
@@ -254,4 +266,12 @@ public class PassengerController {
 
     }  
     
+    public static void setPassengerIdUserComboBox(JComboBox<String> comboBox) {
+        StoragePassenger storage = StoragePassenger.getInstance();
+
+        for (Passenger p : storage.getPassengers()) {
+            comboBox.addItem(String.valueOf(p.getId()));
+        }
+    }
+   
 }

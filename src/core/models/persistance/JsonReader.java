@@ -5,10 +5,10 @@ import java.io.InputStream;
 import org.json.JSONArray;
 import org.json.JSONTokener;
 
-public interface Json<T>{
+public class JsonReader {
      public static JSONArray load(String path) {
-       InputStream is = Json.class.getClassLoader().getResourceAsStream(path);
-        JSONTokener tokener = new JSONTokener(is);
+       InputStream is = JsonReader.class.getClassLoader().getResourceAsStream(path);
+       JSONTokener tokener = new JSONTokener(is);
      return new JSONArray(tokener);
     }
 }

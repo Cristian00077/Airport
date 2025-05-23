@@ -1,6 +1,7 @@
 
-package core.models;
+package core.models.single;
 
+import core.models.Passenger;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -11,8 +12,8 @@ public class PassengerCalAge {
         this.passenger = passenger;
     }
     
-    public static int calculateAge(LocalDate birthDate) {
-        int age = Period.between(birthDate, LocalDate.now()).getYears();
+    public static int calculateAge(Passenger passenger) {
+        int age = Period.between(passenger.getBirthDate(), LocalDate.now()).getYears();
         return age;
     }
 }

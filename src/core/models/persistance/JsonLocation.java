@@ -8,12 +8,10 @@ import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class JsonLocation implements Json<Location>{
-    public void readJsonLocations(String path) {
+public class JsonLocation {
+    public static void readJsonLocations() {
         try {
-            String content = new String(Files.readAllBytes(Paths.get(path)));
-            JSONArray arrayJson = new JSONArray(content);
-
+            JSONArray arrayJson = JsonReader.load("core/json/locations.json");
             for (int i = 0; i < arrayJson.length(); i++) {
                 JSONObject object = arrayJson.getJSONObject(i);
 

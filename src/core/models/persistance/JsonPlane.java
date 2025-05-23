@@ -8,12 +8,10 @@ import java.nio.file.Paths;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class JsonPlane implements Json<Plane>{
-    public void readJsonPlanes(String path){
+public class JsonPlane {
+    public static void readJsonPlanes(){
         try {
-            String content = new String(Files.readAllBytes(Paths.get(path)));
-            JSONArray arrayJson = new JSONArray(content);
-            
+            JSONArray arrayJson = JsonReader.load("core/json/planes.json");
             for (int i = 0; i < arrayJson.length(); i++) {
                 JSONObject object = arrayJson.getJSONObject(i);
                 

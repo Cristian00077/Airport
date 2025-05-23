@@ -1,6 +1,7 @@
 
-package core.models;
+package core.models.single;
 
+import core.models.Flight;
 import java.time.LocalDateTime;
 
 public class FlightCalArrivalDate {
