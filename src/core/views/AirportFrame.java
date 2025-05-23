@@ -12,6 +12,7 @@ import core.controllers.PlaneController;
 import core.controllers.tables.PassengerTable;
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
+import core.models.single.PassengerCalAge;
 import core.models.single.PassengerFullPhone;
 import core.models.storage.StorageFlight;
 import core.models.storage.StorageLocation;
@@ -51,6 +52,7 @@ public class AirportFrame extends javax.swing.JFrame {
         this.generateMinutes();
         this.blockPanels();
         PassengerController.setPassengerIdUserComboBox(userSelectCombo);
+        PlaneController.setPlaneIdComboBox(planeComboBox);
     }
 
     private void blockPanels() {
@@ -1674,7 +1676,7 @@ public class AirportFrame extends javax.swing.JFrame {
     private void refreshFlightsUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshFlightsUserButtonActionPerformed
         // TODO add your handling code here:
         
-        long passengerId = Long.parseLong(userSelectCombo.getItemAt(userSelectCombo.getSelectedIndex()));
+        /*long passengerId = Long.parseLong(userSelectCombo.getItemAt(userSelectCombo.getSelectedIndex()));
 
         Passenger passenger = null;
         for (Passenger p : this.passengers) {
@@ -1688,7 +1690,7 @@ public class AirportFrame extends javax.swing.JFrame {
         model.setRowCount(0);
         for (Flight flight : flights) {
             model.addRow(new Object[]{flight.getId(), flight.getDepartureDate(), flight.calculateArrivalDate()});
-        }
+        }*/
     }//GEN-LAST:event_refreshFlightsUserButtonActionPerformed
 
     private void refreshPassengersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshPassengersButtonActionPerformed
@@ -1696,32 +1698,24 @@ public class AirportFrame extends javax.swing.JFrame {
         
         DefaultTableModel model = (DefaultTableModel) PassengersTable.getModel();
         model.setRowCount(0);
-        for (Passenger passenger : this.passengers) {
-            model.addRow(new Object[]{passenger.getId(), passenger.getFullname(), passenger.getBirthDate(), passenger.calculateAge(), 
+        for (Passenger passenger : StoragePassenger.getInstance().getPassengers()) {
+            model.addRow(new Object[]{passenger.getId(), passenger.getFullname(), passenger.getBirthDate(), 
+                    PassengerCalAge.calculateAge(passenger), 
                     PassengerFullPhone.generateFullPhone(passenger), 
                     passenger.getCountry(), 
                     passenger.getNumFlights()});
         }
-        /*Response response = PassengerTable.updatePassengersTable((DefaultTableModel) PassengersTable.getModel());
-
-        if (response.getStatus() >= 500) {
-            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
-        } else if (response.getStatus() >= 400) {
-            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
-        }*/
         
     }//GEN-LAST:event_refreshPassengersButtonActionPerformed
 
     private void ShowFlightsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShowFlightsButtonActionPerformed
         // TODO add your handling code here:
         
-        DefaultTableModel model = (DefaultTableModel) FlightsTable.getModel();
+        /*DefaultTableModel model = (DefaultTableModel) FlightsTable.getModel();
         model.setRowCount(0);
         for (Flight flight : this.flights) {
             model.addRow(new Object[]{flight.getId(), flight.getDepartureLocation().getAirportId(), flight.getArrivalLocation().getAirportId(), (flight.getScaleLocation() == null ? "-" : flight.getScaleLocation().getAirportId()), flight.getDepartureDate(), flight.calculateArrivalDate(), flight.getPlane().getId(), flight.getNumPassengers()});
-        }
+        }*/
     }//GEN-LAST:event_ShowFlightsButtonActionPerformed
 
     private void showPlanesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPlanesButtonActionPerformed
@@ -1729,8 +1723,12 @@ public class AirportFrame extends javax.swing.JFrame {
         
         DefaultTableModel model = (DefaultTableModel) PlanesTable.getModel();
         model.setRowCount(0);
-        for (Plane plane : this.planes) {
-            model.addRow(new Object[]{plane.getId(), plane.getBrand(), plane.getModel(), plane.getMaxCapacity(), plane.getAirline(), plane.getNumFlights()});
+        for (Plane plane : StoragePlane.getInstance().getPlanes()) {
+            model.addRow(new Object[]{plane.getId(), 
+                plane.getBrand(), 
+                plane.getModel(), plane.getMaxCapacity(),
+                plane.getAirline(), 
+                plane.getNumFlights()});
         }
     }//GEN-LAST:event_showPlanesButtonActionPerformed
 
@@ -1739,8 +1737,11 @@ public class AirportFrame extends javax.swing.JFrame {
          
         DefaultTableModel model = (DefaultTableModel) LocationsTable.getModel();
         model.setRowCount(0);
-        for (Location location : this.locations) {
-            model.addRow(new Object[]{location.getAirportId(), location.getAirportName(), location.getAirportCity(), location.getAirportCountry()});
+        for (Location location : StorageLocation.getInstance().getLocations()) {
+            model.addRow(new Object[]{location.getAirportId(), 
+                location.getAirportName(), 
+                location.getAirportCity(), 
+                location.getAirportCountry()});
         }
     }//GEN-LAST:event_showLocationsButtonActionPerformed
 

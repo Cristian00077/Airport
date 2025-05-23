@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 public class JsonFlight {
     public static void readJsonFlights(){
+        try {
             Plane planeAux;
             JSONArray arrayJson = JsonReader.load("core/json/flights.json");
             
@@ -57,5 +58,8 @@ public class JsonFlight {
                 }
                 StorageFlight.getInstance().addFlight(flight);
             }
+        } catch (Exception e) {
+        }
+            
     }
 }

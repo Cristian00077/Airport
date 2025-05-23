@@ -2,9 +2,12 @@ package core.controllers;
 
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
+import core.models.Flight;
 import core.models.Plane;
 import core.models.persistance.JsonPlane;
+import core.models.storage.StorageFlight;
 import core.models.storage.StoragePlane;
+import javax.swing.JComboBox;
 
 public class PlaneController {
 
@@ -56,5 +59,12 @@ public class PlaneController {
 
     private static boolean isValidPlaneIdFormat(String id) {
         return id.matches("^[A-Z]{2}\\d{5}$");
+    }
+    
+    public static void setPlaneIdComboBox(JComboBox<String> comboBox) {
+        StoragePlane storage = StoragePlane.getInstance();
+        for (Plane plane : storage.getPlanes()) {
+            comboBox.addItem(String.valueOf(plane.getId()));
+        }
     }
 }

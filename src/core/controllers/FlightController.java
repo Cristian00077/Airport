@@ -13,6 +13,7 @@ import core.models.storage.StorageLocation;
 import core.models.storage.StoragePassenger;
 import core.models.storage.StoragePlane;
 import java.time.LocalDateTime;
+import javax.swing.JComboBox;
 
 public class FlightController {
     public static Response createFlight(
@@ -271,6 +272,13 @@ public class FlightController {
        
     }
 
+    public static void setFlightIdComboBox(JComboBox<String> comboBox) {
+        StorageFlight storage = StorageFlight.getInstance();
+        for (Flight flight : storage.getFlights()) {
+            comboBox.addItem(String.valueOf(flight.getId()));
+        }
+    }
+    
     public static LocalDateTime dateTimeObject(String year, String month, String day, String hour, String minutes) {
         try {
 
