@@ -8,10 +8,9 @@ public class Main {
     public static void main(String[] args) {
         
         JsonPassenger.readJsonPassengers();
-        JsonFlight.readJsonFlights();
         JsonLocation.readJsonLocations();
         JsonPlane.readJsonPlanes();
-        
+        JsonFlight.readJsonFlights();
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {

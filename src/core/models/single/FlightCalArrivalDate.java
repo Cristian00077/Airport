@@ -11,7 +11,7 @@ public class FlightCalArrivalDate {
         this.flight = flight;
     }
     
-    public LocalDateTime calculateArrivalDate(Flight flight){
+    public static LocalDateTime calculateArrivalDate(Flight flight){
         return flight.getDepartureDate()
                 .plusHours(flight.getHoursDurationScale() + flight.getHoursDurationArrival())
                 .plusMinutes(flight.getMinutesDurationScale() + flight.getMinutesDurationArrival());

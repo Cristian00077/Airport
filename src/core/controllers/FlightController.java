@@ -274,18 +274,39 @@ public class FlightController {
 
     public static void setFlightIdComboBox(JComboBox<String> comboBox) {
         StorageFlight storage = StorageFlight.getInstance();
+        
         for (Flight flight : storage.getFlights()) {
             comboBox.addItem(String.valueOf(flight.getId()));
         }
     }
     
-    public static LocalDateTime dateTimeObject(String year, String month, String day, String hour, String minutes) {
-        try {
-
-        } catch (NumberFormatException e) {
-
+    public static void setDepartureLocationComboBox(JComboBox<String> comboBox) {
+        StorageFlight storage = StorageFlight.getInstance();
+        
+        for (Flight flight : storage.getFlights()) {
+            Location loc = flight.getDepartureLocation();
+            comboBox.addItem(String.valueOf(loc.getAirportCity()));
         }
-        return null;
+    }
+    
+    public static void setArrivalLocationComboBox(JComboBox<String> comboBox) {
+        StorageFlight storage = StorageFlight.getInstance();
+        
+        for (Flight flight : storage.getFlights()) {
+            Location location = flight.getArrivalLocation();
+            comboBox.addItem(String.valueOf(location.getAirportCity()));
+        }
+    }
+    
+    public static void setScaleLocationComboBox(JComboBox<String> comboBox) {
+        StorageFlight storage = StorageFlight.getInstance();
+        
+        for (Flight flight : storage.getFlights()) {
+            Location location = flight.getScaleLocation();
+            if(location != null){
+            comboBox.addItem(String.valueOf(location.getAirportCity()));
+            }
+        }
     }
 
 }
