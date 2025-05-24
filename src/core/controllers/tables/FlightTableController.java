@@ -5,10 +5,8 @@
 package core.controllers.tables;
 
 import core.models.Flight;
-import core.models.Passenger;
 import core.models.single.FlightCalArrivalDate;
 import core.models.storage.StorageFlight;
-import core.models.storage.StoragePassenger;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
