@@ -17,6 +17,7 @@ import core.controllers.utils.Response;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class AirportFrame extends javax.swing.JFrame {
 
@@ -48,6 +49,7 @@ public class AirportFrame extends javax.swing.JFrame {
         FlightController.setDepartureLocationComboBox(departureComboBox);
         FlightController.setArrivalLocationComboBox(ArrivalComboBox);
         FlightController.setScaleLocationComboBox(ScaleComboBox);
+        FlightController.setFlightIdComboBox(flightComboBox);
     }
 
     private final LocationTableController controllerLoc = new LocationTableController();
@@ -1670,10 +1672,10 @@ public class AirportFrame extends javax.swing.JFrame {
 
     private void refreshFlightsUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshFlightsUserButtonActionPerformed
         // TODO add your handling code here:
+        String passengerId = userSelectCombo.getItemAt(userSelectCombo.getSelectedIndex());
+        controllerPass.ShowUserFlights(passengerId, UserFlightsTable);
         
-        /*long passengerId = Long.parseLong(userSelectCombo.getItemAt(userSelectCombo.getSelectedIndex()));
-
-        Passenger passenger = null;
+        /*Passenger passenger = null;
         for (Passenger p : this.passengers) {
             if (p.getId() == passengerId) {
                 passenger = p;

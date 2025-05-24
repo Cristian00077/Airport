@@ -7,13 +7,17 @@ import core.models.Location;
 import core.models.Passenger;
 import core.models.Plane;
 import core.models.persistance.JsonFlight;
+import core.models.single.FlightCalArrivalDate;
 import core.models.single.FlightDelay;
 import core.models.storage.StorageFlight;
 import core.models.storage.StorageLocation;
 import core.models.storage.StoragePassenger;
 import core.models.storage.StoragePlane;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class FlightController {
     public static Response createFlight(
@@ -241,9 +245,14 @@ public class FlightController {
     public static Response delayFlight(String flightId, String hours, String minutes) {
         try {
             int hoursInt, minutesInt;
-            if (flightId.isEmpty()) {
-            return new Response("Flight Id is required", Status.BAD_REQUEST);
+            try {
+                if (flightId.isEmpty()) {
+                return new Response("Flight Id is required", Status.BAD_REQUEST);
             }
+            } catch (Exception e) {
+                return new Response("Id must be selected", Status.BAD_REQUEST);
+            }
+            
             try {
                 hoursInt = Integer.parseInt(hours);
                 minutesInt = Integer.parseInt(minutes);
@@ -255,7 +264,7 @@ public class FlightController {
                     return new Response("Delay time must be greater than 00:00", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException e) {
-                return new Response("Hours and minutes must be numeric", Status.BAD_REQUEST);
+                return new Response("FlightId, Hours and minutes must be selected", Status.BAD_REQUEST);
             }
             
             StorageFlight storageFlight = StorageFlight.getInstance();

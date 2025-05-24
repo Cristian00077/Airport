@@ -4,54 +4,20 @@
  */
 package core.controllers.tables;
 
-import core.controllers.PassengerController;
-import core.controllers.utils.Response;
-import core.controllers.utils.Status;
-import core.models.Location;
+import core.models.Flight;
 import core.models.Passenger;
+import core.models.single.FlightCalArrivalDate;
 import core.models.single.PassengerCalAge;
 import core.models.single.PassengerFullPhone;
-import core.models.storage.StorageLocation;
+import core.models.storage.StorageFlight;
 import core.models.storage.StoragePassenger;
+import static java.lang.Long.parseLong;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author CRISTIAN
- */
 public class PassengerTableController {
-    public static Response updatePassengersTable(DefaultTableModel model) {
-        try {
-            model.setRowCount(0);
-            ArrayList<Passenger> passengers = StoragePassenger.getInstance().getPassengers();
-
-            if (passengers == null || passengers.isEmpty()) {
-                return new Response("Passenger must be not empty", Status.NO_CONTENT);
-            }
-
-            for (Passenger p : passengers) {
-                int age = PassengerCalAge.calculateAge(p);
-                String fullPhone = PassengerFullPhone.generateFullPhone(p);
-                model.addRow(new Object[]{
-                    p.getId(),
-                    p.getFullname(), 
-                    p.getBirthDate(),
-                    age,
-                    fullPhone,
-                    p.getCountry(),
-                    p.getNumFlights() 
-                });
-            }
-
-            return new Response("Passenger list updated successfully", Status.OK);
-        } catch (Exception e) {
-            return new Response("Unexpected error ", Status.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
     public void showPassengers(JTable table) {
         List<Passenger> passengers = StoragePassenger.getInstance().getPassengers();
 
@@ -72,5 +38,26 @@ public class PassengerTableController {
         
         table.setModel(tm);
     }
+    
+    public void ShowUserFlights(String passengerId, JTable table) {
+        long idLong;
+            idLong = Long.parseLong(passengerId);
+  
+        StoragePassenger storagePassanger = StoragePassenger.getInstance();
+        Passenger passenger = storagePassanger.getPassenger(idLong);
+        
+        DefaultTableModel model = new DefaultTableModel(
+                new Object[]{"ID", "Departure Date", "Arrival Date"}, 0);
+        
+        ArrayList<Flight> flights = passenger.getFlights();
+        for (Flight flight : flights) {
+            model.addRow(new Object[]{flight.getId(), 
+                flight.getDepartureDate(),
+                FlightCalArrivalDate.calculateArrivalDate(flight)});
+        }
+
+        table.setModel(model);
+    }
+    
 }
 

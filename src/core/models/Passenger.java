@@ -91,11 +91,6 @@ public class Passenger {
         return firstname + " " + lastname;
     }
     
-    public int calculateAge() {
-        return Period.between(birthDate, LocalDate.now()).getYears();
-        
-    }
-    
     public int getNumFlights() {
         return flights.size();
     }
