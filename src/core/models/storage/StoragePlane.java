@@ -1,7 +1,6 @@
 
 package core.models.storage;
 
-import core.models.Location;
 import core.models.Plane;
 import java.util.ArrayList;
 import java.util.List;
