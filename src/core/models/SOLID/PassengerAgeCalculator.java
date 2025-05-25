@@ -1,5 +1,5 @@
 
-package core.models.single;
+package core.models.SOLID;
 
 import core.models.Passenger;
 
