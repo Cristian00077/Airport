@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package core.controllers.tables;
 
 import core.models.Flight;
@@ -16,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class PassengerTableController {
+    
     public void showPassengers(JTable table) {
         List<Passenger> passengers = StoragePassenger.getInstance().getPassengers();
 

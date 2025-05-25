@@ -7,6 +7,7 @@ import core.models.Location;
 import core.models.Passenger;
 import core.models.Plane;
 import core.models.single.FlightDelay;
+import core.models.single.FlightDelayService;
 import core.models.storage.StorageFlight;
 import core.models.storage.StorageLocation;
 import core.models.storage.StoragePassenger;
@@ -282,36 +283,6 @@ public class FlightController {
         }
        
     }
-
-    /*public static void setFlightIdComboBox(JComboBox<String> comboBox) {
-        StorageFlight storage = StorageFlight.getInstance();
-        for (Flight flight : storage.getFlights()) {
-            comboBox.addItem(String.valueOf(flight.getId()));
-        }
-    }
-    
-    public static void setDepartureLocationComboBox(JComboBox<String> comboBox) {
-        StorageFlight storage = StorageFlight.getInstance();
-        for (Location loc : storage.getAllDepartureLocations()) {
-            comboBox.addItem(loc.toString());
-        }
-    }
-    
-    public static void setArrivalLocationComboBox(JComboBox<String> comboBox) {
-        StorageFlight storage = StorageFlight.getInstance();
-        for (Location loc : storage.getAllArrivalLocations()) {
-            comboBox.addItem(loc.toString());
-        }
-    }
-    
-    public static void setScaleLocationComboBox(JComboBox<String> comboBox) {
-        StorageFlight storage = StorageFlight.getInstance();
-        for (Location loc : storage.getAllScaleLocations()) {
-            if(loc != null){
-            comboBox.addItem(loc.toString());
-            }
-        }
-    }*/
     
     public static void loadFlightsIdIntoComboBox(JComboBox<String> comboBox) {
         StorageFlight storage = StorageFlight.getInstance();
