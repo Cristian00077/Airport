@@ -43,4 +43,8 @@ public class Location {
         return airportLongitude;
     }
     
+    @Override
+    public String toString() {
+        return airportId; 
+    }
 }

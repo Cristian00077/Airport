@@ -2,7 +2,9 @@
 package core.models.storage;
 
 import core.models.Flight;
+import core.models.Location;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StorageFlight {
     private static StorageFlight instance;
@@ -41,5 +43,27 @@ public class StorageFlight {
         return flights;
     }
     
+    public List<Location> getAllDepartureLocations() {
+        List<Location> departureLocations = new ArrayList<>();
+        for (Flight flight : this.flights) {
+            departureLocations.add(flight.getDepartureLocation());
+        }
+        return departureLocations;
+    }
     
+    public List<Location> getAllArrivalLocations() {
+        List<Location> arrivalLocations = new ArrayList<>();
+        for (Flight flight : this.flights) {
+            arrivalLocations.add(flight.getArrivalLocation());
+        }
+        return arrivalLocations;
+    }
+
+    public List<Location> getAllScaleLocations() {
+        List<Location> scaleLocation = new ArrayList<>();
+        for (Flight flight : this.flights) {
+            scaleLocation.add(flight.getScaleLocation());
+        }
+        return scaleLocation;
+    }
 }

@@ -6,18 +6,13 @@ import core.models.Flight;
 import core.models.Location;
 import core.models.Passenger;
 import core.models.Plane;
-import core.models.persistance.JsonFlight;
-import core.models.single.FlightCalArrivalDate;
 import core.models.single.FlightDelay;
 import core.models.storage.StorageFlight;
 import core.models.storage.StorageLocation;
 import core.models.storage.StoragePassenger;
 import core.models.storage.StoragePlane;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import javax.swing.JComboBox;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 public class FlightController {
     public static Response createFlight(
@@ -60,7 +55,7 @@ public class FlightController {
             }
 
             if (scaleLocationID == null || scaleLocationID.isEmpty()) {
-                return new Response("Arrival location must be selected", Status.BAD_REQUEST);
+                return new Response("Scale location must be selected", Status.BAD_REQUEST);
             }
             
             int yearInt;
@@ -168,7 +163,7 @@ public class FlightController {
 
             StorageLocation storageLocation = StorageLocation.getInstance();
 
-            Location departureLocation = storageLocation.getLocation(arrivalLocationID);
+            Location departureLocation = storageLocation.getLocation(departureLocationID);
             Location scaleLocation = storageLocation.getLocation(scaleLocationID);
             Location arrivalLocation = storageLocation.getLocation(arrivalLocationID);
 
@@ -178,11 +173,18 @@ public class FlightController {
             StorageFlight storageFlight = StorageFlight.getInstance();
             Flight flight = storageFlight.getFlight(id);
 
-            if (flight == null) {
-                return new Response("Flight not found", Status.NOT_FOUND);
+            if (flight != null) {
+                return new Response("Flight already exits", Status.NOT_FOUND);
             }
 
-            if (scaleLocation != null) {
+            if(departureLocation == null){
+                return new Response("Departure not found", Status.NOT_FOUND);
+            }
+            if(arrivalLocation == null){
+                return new Response("Departure not found", Status.NOT_FOUND);
+            }
+
+            if (scaleLocation != null && hourScale==0 && minuteScale==0) {
                 if (!storageFlight.addFlight(new Flight(id, plane, departureLocation, arrivalLocation, departureDate, hourArrival, minuteArrival))) {
                     return new Response("This flight already exits", Status.BAD_REQUEST);
                 }
@@ -292,28 +294,25 @@ public class FlightController {
     public static void setDepartureLocationComboBox(JComboBox<String> comboBox) {
         StorageFlight storage = StorageFlight.getInstance();
         
-        for (Flight flight : storage.getFlights()) {
-            Location loc = flight.getDepartureLocation();
-            comboBox.addItem(String.valueOf(loc.getAirportCity()));
+        for (Location loc : storage.getAllDepartureLocations()) {
+            comboBox.addItem(loc.toString());
         }
     }
     
     public static void setArrivalLocationComboBox(JComboBox<String> comboBox) {
         StorageFlight storage = StorageFlight.getInstance();
         
-        for (Flight flight : storage.getFlights()) {
-            Location location = flight.getArrivalLocation();
-            comboBox.addItem(String.valueOf(location.getAirportCity()));
+        for (Location loc : storage.getAllArrivalLocations()) {
+            comboBox.addItem(loc.toString());
         }
     }
     
     public static void setScaleLocationComboBox(JComboBox<String> comboBox) {
         StorageFlight storage = StorageFlight.getInstance();
         
-        for (Flight flight : storage.getFlights()) {
-            Location location = flight.getScaleLocation();
-            if(location != null){
-            comboBox.addItem(String.valueOf(location.getAirportCity()));
+        for (Location loc : storage.getAllScaleLocations()) {
+            if(loc != null){
+            comboBox.addItem(loc.toString());
             }
         }
     }

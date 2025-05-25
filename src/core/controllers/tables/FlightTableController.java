@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class FlightTableController {
     public void showFlights(JTable table) {
+        try {
         List<Flight> flights = StorageFlight.getInstance().getFlights();
 
         DefaultTableModel tm = new DefaultTableModel(
@@ -20,7 +21,8 @@ public class FlightTableController {
 
         for (Flight flight : flights) {
             tm.addRow(new Object[]{
-                flight.getId(), flight.getDepartureLocation().getAirportId(), 
+                flight.getId(), 
+                flight.getDepartureLocation().getAirportId(), 
                 flight.getArrivalLocation().getAirportId(),
                 (flight.getScaleLocation() == null ? "-" : flight.getScaleLocation().getAirportId()),
                 flight.getDepartureDate(), 
@@ -30,6 +32,9 @@ public class FlightTableController {
         }
         
         table.setModel(tm);
+        } catch (Exception e) {
+            System.out.println("ERRORRRR");
+        }
     }
     
 }
