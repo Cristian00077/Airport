@@ -1672,8 +1672,17 @@ public class AirportFrame extends javax.swing.JFrame {
     private void refreshFlightsUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshFlightsUserButtonActionPerformed
         // TODO add your handling code here:
         String passengerId = userSelectCombo.getItemAt(userSelectCombo.getSelectedIndex());
-        controllerPass.ShowUserFlights(passengerId, UserFlightsTable);
+        //controllerPass.ShowUserFlights(passengerId, UserFlightsTable);
         
+        Response response = controllerPass.ShowUserFlights(passengerId, UserFlightsTable);;
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+        }
         /*Passenger passenger = null;
         for (Passenger p : this.passengers) {
             if (p.getId() == passengerId) {
