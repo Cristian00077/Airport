@@ -1,12 +1,15 @@
 
 package core.controllers.tables;
 
+import core.controllers.FlightController;
+import core.controllers.PassengerController;
 import core.models.Flight;
 import core.models.Passenger;
 import core.models.single.FlightCalArrivalDate;
 import core.models.single.PassengerCalAge;
 import core.models.single.PassengerFullPhone;
 import core.models.storage.StoragePassenger;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
@@ -21,12 +24,14 @@ public class PassengerTableController {
                 new Object[]{"id", "Name", "birthDate", "Age", "Phone", "Country", "Num Flight"}, 0);
 
         for (Passenger passenger : passengers) {
+            int agePass = PassengerController.ageCalculated(passenger);
+            String fullPhone = PassengerController.fullPhoneFormat(passenger);
             tm.addRow(new Object[]{
                 passenger.getId(), 
                 passenger.getFullname(), 
                 passenger.getBirthDate(), 
-                PassengerCalAge.calculateAge(passenger), 
-                PassengerFullPhone.generateFullPhone(passenger), 
+                agePass, 
+                fullPhone, 
                 passenger.getCountry(), 
                 passenger.getNumFlights()
             });
@@ -47,9 +52,10 @@ public class PassengerTableController {
         
         ArrayList<Flight> flights = passenger.getFlights();
         for (Flight flight : flights) {
+            LocalDateTime arrivalCal = FlightController.getCalculatedArrivalDateForFlight(flight);
             model.addRow(new Object[]{flight.getId(), 
                 flight.getDepartureDate(),
-                FlightCalArrivalDate.calculateArrivalDate(flight)});
+                arrivalCal});
         }
 
         table.setModel(model);

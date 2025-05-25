@@ -6,6 +6,8 @@ import core.models.Flight;
 import core.models.Location;
 import core.models.Passenger;
 import core.models.Plane;
+import core.models.single.FlightArrivalCalculator;
+import core.models.single.FlightCalArrivalDate;
 import core.models.single.FlightDelay;
 import core.models.single.FlightDelayService;
 import core.models.storage.StorageFlight;
@@ -16,6 +18,8 @@ import java.time.LocalDateTime;
 import javax.swing.JComboBox;
 
 public class FlightController {
+    private static FlightDelayService delayF = new FlightDelay();
+    private static FlightArrivalCalculator arriCalc = new FlightCalArrivalDate();
     public static Response createFlight(
             String id,
             String planeID,
@@ -245,6 +249,9 @@ public class FlightController {
         return id.matches("^[A-Z]{3}\\d{3}$");
     }
 
+    public static void flightDelayed(Flight flight, int hours, int minutes){
+         delayF.delay(flight, hours, minutes);
+    }
     public static Response delayFlight(String flightId, String hours, String minutes) {
         try {
             int hoursInt, minutesInt;
@@ -273,10 +280,11 @@ public class FlightController {
             StorageFlight storageFlight = StorageFlight.getInstance();
             Flight flight = storageFlight.getFlight(flightId);
             
+            
             if (flight == null) {
             return new Response("Flight not found", Status.NOT_FOUND);
             }
-            FlightDelay.delay(flight, hoursInt, minutesInt);
+            delayF.delay(flight, hoursInt, minutesInt);
             return new Response("Flight delayed successfully", Status.OK);
         } catch (Exception e) {
             return new Response("Unexpected error", Status.BAD_REQUEST);
@@ -290,5 +298,8 @@ public class FlightController {
             comboBox.addItem(String.valueOf(flight.getId()));
         }
     }
-
+ 
+    public static LocalDateTime getCalculatedArrivalDateForFlight(Flight flight) {
+        return arriCalc.calculateArrivalDate(flight);
+    }
 }

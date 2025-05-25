@@ -2,9 +2,11 @@ package core.controllers;
 
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
-import core.models.Location;
 import core.models.Passenger;
-import core.models.storage.StorageLocation;
+import core.models.single.PassengerAgeCalculator;
+import core.models.single.PassengerCalAge;
+import core.models.single.PassengerFullPhone;
+import core.models.single.PassengerPhoneFormat;
 import core.models.storage.StoragePassenger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,6 +14,8 @@ import javax.swing.JComboBox;
 
 public class PassengerController {
 
+    private static PassengerAgeCalculator agePass = new PassengerCalAge();
+    private static PassengerPhoneFormat fullPhone = new PassengerFullPhone();
     public static Response registerPassenger(String id, String firstname, String lastname,
             String year, String month, String day, String countryPhoneCode, String phone, String country) {
         try {
@@ -269,5 +273,12 @@ public class PassengerController {
         for (Passenger passenger : storage.orderPassengers()) {
             comboBox.addItem(String.valueOf(passenger.getId()));
         }
+    }
+    
+    public static int ageCalculated(Passenger passenger){
+        return agePass.calculateAge(passenger);
+    }
+    public static String fullPhoneFormat(Passenger passenger){
+        return fullPhone.generateFullPhone(passenger);
     }
 }
