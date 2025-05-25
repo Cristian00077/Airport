@@ -3,7 +3,9 @@ package core.models.storage;
 
 import core.models.Flight;
 import core.models.Location;
+import core.models.Plane;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class StorageFlight {
@@ -65,5 +67,10 @@ public class StorageFlight {
             scaleLocation.add(flight.getScaleLocation());
         }
         return scaleLocation;
+    }
+    
+    public List<Flight> orderFlights(){
+        flights.sort(Comparator.comparing(Flight::getDepartureDate));
+        return flights;
     }
 }

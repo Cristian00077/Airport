@@ -2,11 +2,13 @@ package core.controllers;
 
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
-import core.models.Flight;
+import core.models.Location;
 import core.models.Plane;
-import core.models.persistance.JsonPlane;
-import core.models.storage.StorageFlight;
+import core.models.storage.StorageLocation;
 import core.models.storage.StoragePlane;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.JComboBox;
 
 public class PlaneController {
@@ -61,9 +63,16 @@ public class PlaneController {
         return id.matches("^[A-Z]{2}\\d{5}$");
     }
     
-    public static void setPlaneIdComboBox(JComboBox<String> comboBox) {
+    /*public static void setPlaneIdComboBox(JComboBox<String> comboBox) {
         StoragePlane storage = StoragePlane.getInstance();
         for (Plane plane : storage.getPlanes()) {
+            comboBox.addItem(String.valueOf(plane.getId()));
+        }
+    }*/
+    
+    public static void loadPlanesIdIntoComboBox(JComboBox<String> comboBox) {
+        StoragePlane storage = StoragePlane.getInstance();
+        for (Plane plane : storage.orderPlanes()) {
             comboBox.addItem(String.valueOf(plane.getId()));
         }
     }

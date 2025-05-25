@@ -43,19 +43,19 @@ public class AirportFrame extends javax.swing.JFrame {
         this.generateHours();
         this.generateMinutes();
         this.blockPanels();
-        PassengerController.setPassengerIdUserComboBox(userSelectCombo);
-        PlaneController.setPlaneIdComboBox(planeComboBox);
-        FlightController.setFlightIdComboBox(delayFlightIdCombo);
-        FlightController.setDepartureLocationComboBox(departureComboBox);
-        FlightController.setArrivalLocationComboBox(ArrivalComboBox);
-        FlightController.setScaleLocationComboBox(ScaleComboBox);
-        FlightController.setFlightIdComboBox(flightComboBox);
+        PassengerController.loadPassengersIdIntoComboBox(userSelectCombo);
+        PlaneController.loadPlanesIdIntoComboBox(planeComboBox);
+        FlightController.loadFlightsIdIntoComboBox(delayFlightIdCombo);
+        FlightController.loadFlightsIdIntoComboBox(flightComboBox);
+        LocationController.loadLocationsIdIntoComboBox(departureComboBox);
+        LocationController.loadLocationsIdIntoComboBox(ArrivalComboBox);
+        LocationController.loadLocationsIdIntoComboBox(ScaleComboBox);
     }
 
-    private final LocationTableController controllerLoc = new LocationTableController();
-    private final PassengerTableController controllerPass = new PassengerTableController();
-    private final PlaneTableController controllerPlane = new PlaneTableController();
-    private final FlightTableController controllerFlight = new FlightTableController();
+    private LocationTableController controllerLoc = new LocationTableController();
+    private PassengerTableController controllerPass = new PassengerTableController();
+    private PlaneTableController controllerPlane = new PlaneTableController();
+    private FlightTableController controllerFlight = new FlightTableController();
     
     private void blockPanels() {
         //9, 11
@@ -1560,8 +1560,8 @@ public class AirportFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
-            //flightIdTextField.setText("");
             this.flightComboBox.addItem(id);
+            flightIdTextField.setText("");
             planeComboBox.setSelectedIndex(0);
             departureComboBox.setSelectedIndex(0);
             ArrivalComboBox.setSelectedIndex(0);

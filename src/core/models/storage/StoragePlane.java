@@ -1,8 +1,10 @@
 
 package core.models.storage;
 
+import core.models.Location;
 import core.models.Plane;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StoragePlane {
     
@@ -43,4 +45,18 @@ public class StoragePlane {
         return planes;
     }
     
+    public List<Plane> orderPlanes(){
+                for (int i = 0; i < planes.size(); i++) {
+            for (int j = 0; j < planes.size() - i - 1; j++) {
+              Plane currentId = planes.get(j);
+              Plane nextId = planes.get(j+1);
+              if(currentId.getId().compareTo(nextId.getId()) > 0) {
+                planes.set(j, nextId);
+                planes.set(j+1, currentId);
+              }
+            }
+        }
+        return planes;
+    }
+   
 }

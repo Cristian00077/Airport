@@ -3,6 +3,7 @@ package core.models.storage;
 
 import core.models.Location;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StorageLocation {
     private static StorageLocation instance;
@@ -41,5 +42,19 @@ public class StorageLocation {
     public ArrayList<Location> getLocations() {
         return locations;
     }
-    
+ 
+    public List<Location> orderLocations(){
+                for (int i = 0; i < locations.size(); i++) {
+            for (int j = 0; j < locations.size() - i - 1; j++) {
+              Location currentId = locations.get(j);
+              Location nextId = locations.get(j+1);
+              if(currentId.getAirportId().compareTo(nextId.getAirportId())>0) {
+                locations.set(j, nextId);
+                locations.set(j+1, currentId);
+              }
+            }
+        }
+        return locations;
+    }
+  
 }

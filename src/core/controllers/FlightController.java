@@ -283,9 +283,8 @@ public class FlightController {
        
     }
 
-    public static void setFlightIdComboBox(JComboBox<String> comboBox) {
+    /*public static void setFlightIdComboBox(JComboBox<String> comboBox) {
         StorageFlight storage = StorageFlight.getInstance();
-        
         for (Flight flight : storage.getFlights()) {
             comboBox.addItem(String.valueOf(flight.getId()));
         }
@@ -293,7 +292,6 @@ public class FlightController {
     
     public static void setDepartureLocationComboBox(JComboBox<String> comboBox) {
         StorageFlight storage = StorageFlight.getInstance();
-        
         for (Location loc : storage.getAllDepartureLocations()) {
             comboBox.addItem(loc.toString());
         }
@@ -301,7 +299,6 @@ public class FlightController {
     
     public static void setArrivalLocationComboBox(JComboBox<String> comboBox) {
         StorageFlight storage = StorageFlight.getInstance();
-        
         for (Location loc : storage.getAllArrivalLocations()) {
             comboBox.addItem(loc.toString());
         }
@@ -309,11 +306,17 @@ public class FlightController {
     
     public static void setScaleLocationComboBox(JComboBox<String> comboBox) {
         StorageFlight storage = StorageFlight.getInstance();
-        
         for (Location loc : storage.getAllScaleLocations()) {
             if(loc != null){
             comboBox.addItem(loc.toString());
             }
+        }
+    }*/
+    
+    public static void loadFlightsIdIntoComboBox(JComboBox<String> comboBox) {
+        StorageFlight storage = StorageFlight.getInstance();
+        for (Flight flight : storage.orderFlights()) {
+            comboBox.addItem(String.valueOf(flight.getId()));
         }
     }
 

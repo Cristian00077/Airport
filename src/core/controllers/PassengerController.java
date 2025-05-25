@@ -2,7 +2,9 @@ package core.controllers;
 
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
+import core.models.Location;
 import core.models.Passenger;
+import core.models.storage.StorageLocation;
 import core.models.storage.StoragePassenger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -261,13 +263,11 @@ public class PassengerController {
         }
 
     }  
-    
-    public static void setPassengerIdUserComboBox(JComboBox<String> comboBox) {
+   
+    public static void loadPassengersIdIntoComboBox(JComboBox<String> comboBox) {
         StoragePassenger storage = StoragePassenger.getInstance();
-
-        for (Passenger p : storage.getPassengers()) {
-            comboBox.addItem(String.valueOf(p.getId()));
+        for (Passenger passenger : storage.orderPassengers()) {
+            comboBox.addItem(String.valueOf(passenger.getId()));
         }
     }
-   
 }
