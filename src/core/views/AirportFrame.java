@@ -1789,7 +1789,6 @@ public class AirportFrame extends javax.swing.JFrame implements EventListener {
     
     @Override
     public void update(Publisher publisher) {
-        System.out.println("LO HIZO");
         controllerLoc.showLocations(this.LocationsTable);
         controllerPass.showPassengers(this.PassengersTable);
         controllerPlane.showplanes(this.PlanesTable);
