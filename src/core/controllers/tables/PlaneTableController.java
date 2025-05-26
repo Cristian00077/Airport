@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package core.controllers.tables;
 
 import core.models.Plane;
@@ -10,11 +7,7 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author CRISTIAN
- */
-public class PlaneTableController {
+public class PlaneTableController{
     public void showplanes(JTable table) {
         List<Plane> planes = StoragePlane.getInstance().getPlanes();
 
