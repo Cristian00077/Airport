@@ -27,7 +27,7 @@ public abstract class Publisher {
         this.subs.remove(sub);
     }
     
-    protected void NotifySubscribers(){
+    public void NotifySubscribers(){
         for (Subscriber sub : subs) {
             sub.update(this);
         }

@@ -1781,6 +1781,13 @@ public class AirportFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_yearDepartureDateTextFieldActionPerformed
     
+    public void update(){
+        controllerLoc.showLocations(this.LocationsTable);
+        controllerPass.showPassengers(this.PassengersTable);
+        controllerPlane.showplanes(this.PlanesTable);
+        controllerFlight.showFlights(this.FlightsTable);
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ArrivalComboBox;

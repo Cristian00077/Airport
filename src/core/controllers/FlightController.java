@@ -16,10 +16,26 @@ import core.models.storage.StoragePassenger;
 import core.models.storage.StoragePlane;
 import java.time.LocalDateTime;
 import javax.swing.JComboBox;
+import pattern.observer.GenericPublisher;
+import pattern.observer.Subscriber;
 
 public class FlightController {
     private static FlightDelayService delayF = new FlightDelay();
     private static FlightArrivalCalculator arriCalc = new FlightCalArrivalDate();
+    private static final GenericPublisher publisher = new GenericPublisher();
+
+    public static void subscribe(Subscriber s) {
+        publisher.Subscribe(s);
+    }
+
+    public static void notifyChanges() {
+        publisher.NotifySubscribers();
+    }
+    
+    public static void unsubscribe(Subscriber s){
+        publisher.Unsubscribe(s);
+    }
+    
     public static Response createFlight(
             String id,
             String planeID,
@@ -238,6 +254,7 @@ public class FlightController {
             }
             flight.addPassenger(passenger);
             passenger.addFlight(flight);
+            notifyChanges();
             return new Response("Passenger added successfully", Status.OK);
         } catch (Exception e) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
@@ -285,6 +302,7 @@ public class FlightController {
             return new Response("Flight not found", Status.NOT_FOUND);
             }
             delayF.delay(flight, hoursInt, minutesInt);
+            notifyChanges();
             return new Response("Flight delayed successfully", Status.OK);
         } catch (Exception e) {
             return new Response("Unexpected error", Status.BAD_REQUEST);
