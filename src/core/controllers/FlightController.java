@@ -30,6 +30,7 @@ public class FlightController {
     }
 
     public static void notifyChanges() {
+         
         publisher.NotifySubscribers();
     }
     
@@ -210,11 +211,14 @@ public class FlightController {
                 if (!storageFlight.addFlight(new Flight(id, plane, departureLocation, arrivalLocation, departureDate, hourArrival, minuteArrival))) {
                     return new Response("This flight already exits", Status.BAD_REQUEST);
                 }
+                notifyChanges();
                 return new Response("Flight created successfully", Status.CREATED);
             } else {
                 if (!storageFlight.addFlight(new Flight(id, plane, departureLocation, scaleLocation, arrivalLocation, departureDate, hourArrival, minuteArrival, hourScale, minuteArrival))) {
+                    
                     return new Response("This flight already exits", Status.BAD_REQUEST);
                 }
+                notifyChanges();
                 return new Response("Flight with scale created successfully", Status.CREATED);
             }
         } catch (Exception e) {
@@ -255,7 +259,7 @@ public class FlightController {
             }
             flight.addPassenger(passenger);
             passenger.addFlight(flight);
-            notifyChanges();
+            
             return new Response("Passenger added successfully", Status.OK);
         } catch (Exception e) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
