@@ -47,6 +47,9 @@ public class AirportFrame extends javax.swing.JFrame implements EventListener {
         PassengerController.loadPassengersIdIntoComboBox(userSelectCombo);
         PlaneController.loadPlanesIdIntoComboBox(planeComboBox);
         FlightController.subscribe(this);
+        PassengerController.subscribe(this);
+        PlaneController.subscribe(this);
+        LocationController.subscribe(this);
         FlightController.loadFlightsIdIntoComboBox(delayFlightIdCombo);
         FlightController.loadFlightsIdIntoComboBox(flightComboBox);
         LocationController.loadLocationsIdIntoComboBox(departureComboBox);

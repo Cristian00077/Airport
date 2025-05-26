@@ -11,11 +11,29 @@ import core.models.storage.StoragePassenger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.swing.JComboBox;
+import pattern.observer.EventListener;
+import pattern.observer.GenericPublisher;
+import pattern.observer.Subscriber;
 
 public class PassengerController {
 
     private static PassengerAgeCalculator agePass = new PassengerCalAge();
     private static PassengerPhoneFormat fullPhone = new PassengerFullPhone();
+    private static final GenericPublisher publisher = new GenericPublisher();
+    
+    public static void subscribe(EventListener s) {
+        publisher.Subscribe(s);
+    }
+
+    public static void notifyChanges() {
+         
+        publisher.NotifySubscribers();
+    }
+    
+    public static void unsubscribe(EventListener s){
+        publisher.Unsubscribe(s);
+    }
+    
     public static Response registerPassenger(String id, String firstname, String lastname,
             String year, String month, String day, String countryPhoneCode, String phone, String country) {
         try {
@@ -122,6 +140,7 @@ public class PassengerController {
                     countryPhoneCodeInt, phoneLong, country))) {
                 return new Response("Passenger with that id already exists", Status.BAD_REQUEST);
             }
+            notifyChanges();
             return new Response("Passenger registered successfully", Status.CREATED);
 
         } catch (Exception ex) {
@@ -251,6 +270,7 @@ public class PassengerController {
                 passenger.setCountryPhoneCode(countryPhoneCodeInt);
                 passenger.setPhone(phoneLong);
                 passenger.setCountry(countryN);
+                notifyChanges();
                 return new Response("Passenger info was updated successfully", Status.OK);
             }
 

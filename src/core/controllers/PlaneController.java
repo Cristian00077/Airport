@@ -2,17 +2,30 @@ package core.controllers;
 
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
-import core.models.Location;
 import core.models.Plane;
-import core.models.storage.StorageLocation;
 import core.models.storage.StoragePlane;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 import javax.swing.JComboBox;
+import pattern.observer.EventListener;
+import pattern.observer.GenericPublisher;
+
 
 public class PlaneController {
 
+    private static final GenericPublisher publisher = new GenericPublisher();
+    
+    public static void subscribe(EventListener s) {
+        publisher.Subscribe(s);
+    }
+
+    public static void notifyChanges() {
+         
+        publisher.NotifySubscribers();
+    }
+    
+    public static void unsubscribe(EventListener s){
+        publisher.Unsubscribe(s);
+    }
+    
     public static Response createPlane(String id, String brand, String model, String maxCapacity, String airline) {
         try {
             int maxCapacityInt;
@@ -51,6 +64,7 @@ public class PlaneController {
             if(!storagePlane.addPlane(new Plane(id, brand, model, maxCapacityInt, airline))){
                 return new Response("Airplane with that id already exits", Status.BAD_REQUEST);
             }
+            notifyChanges();
             return new Response("Airplane registered succesfully", Status.CREATED);
             
         } catch (Exception ex) {
@@ -62,13 +76,6 @@ public class PlaneController {
     private static boolean isValidPlaneIdFormat(String id) {
         return id.matches("^[A-Z]{2}\\d{5}$");
     }
-    
-    /*public static void setPlaneIdComboBox(JComboBox<String> comboBox) {
-        StoragePlane storage = StoragePlane.getInstance();
-        for (Plane plane : storage.getPlanes()) {
-            comboBox.addItem(String.valueOf(plane.getId()));
-        }
-    }*/
     
     public static void loadPlanesIdIntoComboBox(JComboBox<String> comboBox) {
         StoragePlane storage = StoragePlane.getInstance();

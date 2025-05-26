@@ -5,9 +5,25 @@ import core.controllers.utils.Status;
 import core.models.Location;
 import core.models.storage.StorageLocation;
 import javax.swing.JComboBox;
+import pattern.observer.EventListener;
+import pattern.observer.GenericPublisher;
 
 public class LocationController {
 
+    private static final GenericPublisher publisher = new GenericPublisher();
+    
+    public static void subscribe(EventListener s) {
+        publisher.Subscribe(s);
+    }
+
+    public static void notifyChanges() {
+         
+        publisher.NotifySubscribers();
+    }
+    
+    public static void unsubscribe(EventListener s){
+        publisher.Unsubscribe(s);
+    }
     public static Response createLocation(String id, String name, String city, String country, String latitude, String longitude) {
         try {
             double latitudeD;
@@ -69,6 +85,7 @@ public class LocationController {
             if(!storageLocation.addLocation(new Location(id, name, city, country, latitudeD, longitudeD))){
                 return new Response("Airport with that id already exits", Status.BAD_REQUEST);
             }
+            notifyChanges();
             return new Response("Airport created successfully", Status.CREATED);
             
         } catch (Exception ex) {
