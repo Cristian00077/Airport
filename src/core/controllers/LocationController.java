@@ -3,11 +3,7 @@ package core.controllers;
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
 import core.models.Location;
-import core.models.Passenger;
 import core.models.storage.StorageLocation;
-import core.models.storage.StoragePassenger;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JComboBox;
 
 public class LocationController {

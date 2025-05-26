@@ -17,8 +17,10 @@ import core.controllers.utils.Response;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import pattern.observer.EventListener;
+import pattern.observer.Publisher;
 
-public class AirportFrame extends javax.swing.JFrame {
+public class AirportFrame extends javax.swing.JFrame implements EventListener {
 
     private int x, y;
     private ArrayList<Passenger> passengers;
@@ -44,6 +46,7 @@ public class AirportFrame extends javax.swing.JFrame {
         this.blockPanels();
         PassengerController.loadPassengersIdIntoComboBox(userSelectCombo);
         PlaneController.loadPlanesIdIntoComboBox(planeComboBox);
+        FlightController.subscribe(this);
         FlightController.loadFlightsIdIntoComboBox(delayFlightIdCombo);
         FlightController.loadFlightsIdIntoComboBox(flightComboBox);
         LocationController.loadLocationsIdIntoComboBox(departureComboBox);
@@ -1781,7 +1784,8 @@ public class AirportFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_yearDepartureDateTextFieldActionPerformed
     
-    public void update(){
+    @Override
+    public void update(Publisher publisher) {
         controllerLoc.showLocations(this.LocationsTable);
         controllerPass.showPassengers(this.PassengersTable);
         controllerPlane.showplanes(this.PlanesTable);
@@ -1930,4 +1934,7 @@ public class AirportFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> userSelectCombo;
     private javax.swing.JTextField yearDepartureDateTextField;
     // End of variables declaration//GEN-END:variables
+
+
+
 }

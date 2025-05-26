@@ -16,6 +16,7 @@ import core.models.storage.StoragePassenger;
 import core.models.storage.StoragePlane;
 import java.time.LocalDateTime;
 import javax.swing.JComboBox;
+import pattern.observer.EventListener;
 import pattern.observer.GenericPublisher;
 import pattern.observer.Subscriber;
 
@@ -24,7 +25,7 @@ public class FlightController {
     private static FlightArrivalCalculator arriCalc = new FlightCalArrivalDate();
     private static final GenericPublisher publisher = new GenericPublisher();
 
-    public static void subscribe(Subscriber s) {
+    public static void subscribe(EventListener s) {
         publisher.Subscribe(s);
     }
 
@@ -32,7 +33,7 @@ public class FlightController {
         publisher.NotifySubscribers();
     }
     
-    public static void unsubscribe(Subscriber s){
+    public static void unsubscribe(EventListener s){
         publisher.Unsubscribe(s);
     }
     

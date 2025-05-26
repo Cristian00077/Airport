@@ -11,24 +11,24 @@ import java.util.ArrayList;
  * @author Maldonado
  */
 public abstract class Publisher {
-    ArrayList<Subscriber> subs;
+    ArrayList<EventListener> eventListeners;
     
     public Publisher(){
-        subs = new ArrayList<>();
+        eventListeners = new ArrayList<>();
     }
     
-    public void Subscribe(Subscriber sub){
-        if(sub == null || this.subs.contains(sub)){
+    public void Subscribe(EventListener sub){
+        if(sub == null || this.eventListeners.contains(sub)){
             return;
         }
-        this.subs.add(sub);
+        this.eventListeners.add(sub);
     }
-    public void Unsubscribe(Subscriber sub){
-        this.subs.remove(sub);
+    public void Unsubscribe(EventListener sub){
+        this.eventListeners.remove(sub);
     }
     
     public void NotifySubscribers(){
-        for (Subscriber sub : subs) {
+        for (EventListener sub : eventListeners) {
             sub.update(this);
         }
     } 
