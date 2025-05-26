@@ -161,15 +161,7 @@ public class PassengerController {
             int countryPhoneCodeInt;
             long phoneLong;
             
-            try {
-                idLong = Long.parseLong(id);
-
-            } catch (NumberFormatException e) {
-                if (id.equals("")) {
-                    return new Response("Id must be not empty", Status.BAD_REQUEST);
-                }
-                return new Response("Id must be numeric", Status.BAD_REQUEST);
-            }
+            idLong = Long.parseLong(id);
 
             if (firstnameN.equals("")) {
                 return new Response("Firstname must be not empty", Status.BAD_REQUEST);

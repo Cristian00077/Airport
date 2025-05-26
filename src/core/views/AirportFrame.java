@@ -1469,7 +1469,7 @@ public class AirportFrame extends javax.swing.JFrame implements EventListener {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
-            this.userSelectCombo.addItem("ID: " + id);
+            this.userSelectCombo.addItem("" + id);
             PassengerIdTextField.setText("");
             firstnameTextField.setText("");
             lastnameTextField.setText("");
